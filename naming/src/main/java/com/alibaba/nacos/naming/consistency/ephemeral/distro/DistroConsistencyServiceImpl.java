@@ -365,7 +365,12 @@ public class DistroConsistencyServiceImpl implements EphemeralConsistencyService
     public boolean isInitialized() {
         return distroProtocol.isInitialized() || !globalConfig.isDataWarmup();
     }
-    
+
+    /**
+     * 注意点：
+     * run方法
+     * tasks阻塞队列
+     */
     public class Notifier implements Runnable {
         
         private ConcurrentHashMap<String, String> services = new ConcurrentHashMap<>(10 * 1024);
@@ -392,11 +397,15 @@ public class DistroConsistencyServiceImpl implements EphemeralConsistencyService
         public int getTaskSize() {
             return tasks.size();
         }
-        
+
+        /**
+         *
+         */
         @Override
         public void run() {
             Loggers.DISTRO.info("distro notifier started");
-            
+
+            // 死循环 从阻塞队列消费消息
             for (; ; ) {
                 try {
                     Pair<String, DataOperation> pair = tasks.take();
