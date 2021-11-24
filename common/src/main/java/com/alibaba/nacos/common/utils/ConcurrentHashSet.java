@@ -21,6 +21,9 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ *
+ * nacos通过ConcurrentHashMap来实现一个线程安全的Hashset
+ *
  * Concurrent Hash Set implement by {@link ConcurrentHashMap}.
  *
  * @author <a href="mailto:liaochuntao@live.com">liaochuntao</a>
